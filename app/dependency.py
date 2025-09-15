@@ -1,6 +1,6 @@
 from typing import Optional, Annotated
 from fastapi import Query
-from app.database import get_db
+from app.database import get_db, get_session
 from sqlalchemy.orm import Session
 from fastapi import Depends
 
@@ -12,3 +12,4 @@ class CommonQueryParams:
         self.offset = offset
 
 db_dependency = Annotated[Session, Depends(get_db)]
+session_dependency = Depends(get_session)
