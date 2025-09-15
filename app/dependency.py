@@ -12,4 +12,4 @@ class CommonQueryParams:
         self.offset = offset
 
 db_dependency = Annotated[Session, Depends(get_db)]
-session_dependency = Depends(get_session)
+SessionDep = Annotated[Session, Depends(get_session)]

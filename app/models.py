@@ -12,6 +12,9 @@ class Item(Base):
     category_id: Mapped[int] = mapped_column(ForeignKey("item_category.category_id"))
 
     category:Mapped["ItemCategory"] = relationship("ItemCategory", back_populates="item")
+
+    def __repr__(self): ## mysterioultly adds the category details in the item  when joining
+        return f"Item(item_id={self.item_id}, name={self.name}, price={self.price}, category_id={self.category_id}), category={self.category})"
     
 
 class ItemBase(BaseModel):

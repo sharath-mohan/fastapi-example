@@ -1,7 +1,9 @@
 from fastapi import APIRouter, HTTPException, Path, Depends
 from typing import Annotated
+from sqlalchemy import select
 
-from app.dependency import CommonQueryParams, db_dependency
+from app.database import get_session
+from app.dependency import CommonQueryParams, db_dependency, SessionDep
 from app import models
 
 router = APIRouter(
@@ -11,10 +13,12 @@ router = APIRouter(
 
 
 @router.get("/")
-async def read_items(db:db_dependency, commons: Annotated[CommonQueryParams,   Depends(CommonQueryParams)]):
-    result = db.query(models.Item).all()
-    return result
-   
+async def read_items(commons: Annotated[CommonQueryParams, Depends(CommonQueryParams)], session:SessionDep):
+    stmt = select(models.Item, models.ItemCategory).join(models.Item.category)
+    results = session.execute(stmt).scalars().all()
+    print(results)  # Debug print
+    return results
+
 
 @router.get("/{item_id}")
 async def read_item(item_id:Annotated[int, Path(gt=0)], db: db_dependency):
