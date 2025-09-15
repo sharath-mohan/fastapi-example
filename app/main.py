@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 from app.routers import items
-from app.database import get_db
 
 origins = [
     "http://localhost:5123",
@@ -19,7 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-get_db()
+
 
 app.include_router(items.router)
 

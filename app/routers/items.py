@@ -29,8 +29,7 @@ async def create_item(item: models.ItemBase, db: db_dependency):
     db.add(db_item)
     db.commit()
     db.refresh(db_item)
-    return {"item": item, "message": "Item created successfully"}
-
+    return {"item": db_item, "message": "Item created successfully"}
 
 # # ...existing code...
 
